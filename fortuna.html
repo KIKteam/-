@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+  >
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <title>Русская рулетка</title>
+  <style>
+    .result-container.shot {
+      animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+      transform: translate3d(0, 0, 0);
+    }
+
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-1px, 0, 0); }
+      20%, 80% { transform: translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+      40%, 60% { transform: translate3d(4px, 0, 0); }
+    }
+
+    .result-text {
+        font-size: 3em;
+        font-weight: bold;
+        margin: 15px 0;
+        text-transform: uppercase;
+    }
+
+    .result-text.shot-text {
+        color: #d9534f; /* Красный */
+    }
+
+    .result-text.safe-text {
+        color: #5cb85c; /* Зеленый */
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header__text">
+      <h1>Кто предатель?</h1>
+      <p>Среди членов экипажа есть самозванец. Испытай свою удачу!</p>
+    </div>
+  </header>
+  <main>
+    {% block content %}
+    <h2 class="main__title main__title--margin">Результат:</h2>
+    <div class="main__rez result-container {% if shot %}shot{% endif %}" id="end">
+        {% if shot %}
+        <img class="rez__img" src="https://vmireskazki.ru/data/raskraski/279/sabotazh-v-among-as.png" alt="Предатель">
+        <span class="result-text shot-text">ПРЕДАТЕЛЬ!</span>
+        <span>Вас обнаружили...</span>
+        {% else %}
+        <img class="rez__img" src="https://www.pngmart.com/files/21/Among-Us-Character-PNG-Photo.png" alt="Член экипажа">
+        <span class="result-text safe-text">МИРНЫЙ</span>
+        <span>Вы член экипажа. Пока что...</span>
+        {% endif %}
+    </div>
+    <div class="main__button-wrapper">
+      <a href="{{ url_for('fortuna') }}" class="button">Ещё раз</a>
+      <a href="{{ url_for('index') }}" class="button">На главную</a>
+    </div>
+    {% endblock %}
+  </main>
+  <footer>
+  </footer>
+</body>
+</html>
